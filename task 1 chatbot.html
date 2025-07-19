@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rule-Based Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    #chat-container {
+      width: 400px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+    }
+    #chat-box {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .user, .bot {
+      margin: 5px 0;
+    }
+    .user { text-align: right; color: blue; }
+    .bot { text-align: left; color: green; }
+    #user-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chat-container">
+  <div id="chat-box"></div>
+  <input type="text" id="user-input" placeholder="Type a message..." onkeydown="handleInput(event)">
+</div>
+
+<script>
+  function handleInput(e) {
+    if (e.key === 'Enter') {
+      const input = e.target.value.trim();
+      if (!input) return;
+
+      addMessage('user', input);
+      const response = getResponse(input.toLowerCase());
+      setTimeout(() => addMessage('bot', response), 500);
+
+      e.target.value = '';
+    }
+  }
+
+  function addMessage(sender, text) {
+    const chatBox = document.getElementById('chat-box');
+    const msg = document.createElement('div');
+    msg.className = sender;
+    msg.textContent = (sender === 'user' ? "You: " : "Bot: ") + text;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function getResponse(input) {
+    if (["hi", "hello", "hey"].includes(input)) {
+      return "Hello! How can I help you today?";
+    } else if (input.includes("your name")) {
+      return "I'm freddy, your simple rule-based chatbot.";
+    } else if (input.includes("how are you")) {
+      return "I'm doing great, thank you!";
+    } else if (input.includes("what can you do")) {
+      return "I can chat with you and answer simple questions.";
+    } else if (input.includes("weather")) {
+      return "I can't check real weather, but it's always sunny here!";
+    } else if (input.includes("help")) {
+      return "Try saying hi, asking my name, or checking the weather.";
+    } else if (input.includes("bye")) {
+      return "Goodbye! Have a wonderful day.";
+    } else {
+      return "I'm not sure how to respond to that.";
+    }
+  }
+</script>
+
+</body>
+</html>
